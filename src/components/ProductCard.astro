@@ -27,8 +27,14 @@ const { name, brand, currentPrice, originalPrice, discount, features, bestseller
 
         <div class="product-price">
             <span class="price-current">{currentPrice}€</span>
-            <span class="price-original">{originalPrice}€</span>
-            <span class="discount">-{discount}%</span>
+            {
+                discount > 0 && (
+                    <>
+                        <span class="price-original">{originalPrice}€</span>
+                        <span class="discount">-{discount}%</span>
+                    </>
+                )
+            }
         </div>
 
         <ul class="product-features">
