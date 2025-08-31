@@ -1,0 +1,105 @@
+---
+const features = [
+    {
+        icon: 'fas fa-shipping-fast',
+        title: 'Envío Rápido',
+        description: 'Entrega en 24-48h en toda España. Envío gratuito en pedidos superiores a 50€.'
+    },
+    {
+        icon: 'fas fa-shield-alt',
+        title: 'Garantía Total',
+        description: '2 años de garantía en todos nuestros productos. Satisfacción garantizada.'
+    },
+    {
+        icon: 'fas fa-award',
+        title: 'Calidad Premium',
+        description: 'Solo trabajamos con las mejores marcas y productos de máxima calidad.'
+    }
+];
+---
+
+<section class="features-section">
+    <div class="container">
+        <h2 class="section-title">¿Por qué Chronux?</h2>
+        <div class="features-grid">
+            {
+                features.map((feature) => (
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class={feature.icon} />
+                        </div>
+                        <h3 class="feature-title">{feature.title}</h3>
+                        <p class="feature-description">{feature.description}</p>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</section>
+
+<style>
+    .features-section {
+        padding: 4rem 1.5rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-top: 1px solid var(--glass-border);
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 3rem;
+        background: linear-gradient(45deg, #fff, #ffd700);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .feature-card {
+        text-align: center;
+        padding: 2rem;
+        background: var(--glass-bg);
+        border-radius: 20px;
+        border: 1px solid var(--glass-border);
+        transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        color: var(--accent-gold);
+        margin-bottom: 1rem;
+    }
+
+    .feature-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+    }
+
+    .feature-description {
+        color: var(--text-secondary);
+        line-height: 1.5;
+    }
+
+    @media (min-width: 768px) {
+        .features-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+</style>

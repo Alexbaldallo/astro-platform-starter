@@ -1,0 +1,85 @@
+---
+import ProductCard from './ProductCard.astro';
+
+// AQUÍ PUEDES CONECTAR CON TU API DE AMAZON MÁS TARDE
+const featuredProducts = [
+    {
+        name: 'Reloj Deportivo Elite',
+        brand: 'Marca Premium',
+        currentPrice: 89,
+        originalPrice: 149,
+        discount: 40,
+        features: ['Resistente al agua', 'Cronómetro integrado', 'Correa deportiva', 'Garantía 2 años'],
+        bestseller: true,
+        affiliateLink: 'https://amazon.es/tu-enlace-afiliado-1'
+    },
+    {
+        name: 'Reloj Clásico Elegante',
+        brand: 'Colección Executive',
+        currentPrice: 129,
+        originalPrice: 199,
+        discount: 35,
+        features: ['Diseño minimalista', 'Correa de cuero', 'Movimiento cuarzo', 'Caja de acero inoxidable'],
+        affiliateLink: 'https://amazon.es/tu-enlace-afiliado-2'
+    },
+    {
+        name: 'Smartwatch Pro',
+        brand: 'Tecnología Avanzada',
+        currentPrice: 199,
+        originalPrice: 299,
+        discount: 33,
+        features: ['Monitor de salud', 'GPS integrado', 'Pantalla AMOLED', 'Batería 7 días'],
+        affiliateLink: 'https://amazon.es/tu-enlace-afiliado-3'
+    }
+];
+---
+
+<section class="featured-products" id="productos">
+    <div class="container">
+        <h2 class="section-title">Más Vendidos</h2>
+        <div class="products-grid">
+            {featuredProducts.map((product) => <ProductCard {...product} />)}
+        </div>
+    </div>
+</section>
+
+<style>
+    .featured-products {
+        padding: 4rem 1.5rem;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 3rem;
+        background: linear-gradient(45deg, #fff, #ffd700);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    @media (min-width: 768px) {
+        .products-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .products-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+</style>

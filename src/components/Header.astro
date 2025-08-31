@@ -1,4 +1,83 @@
-<header class="bg-gray-900 text-white p-4 flex justify-between items-center">
-    <h1 class="text-xl font-bold">Chronux Shop</h1>
+---
+const navItems = [
+    { href: '#inicio', label: 'Inicio' },
+    { href: '#productos', label: 'Productos' },
+    { href: '#contacto', label: 'Contacto' }
+];
+---
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">CHRONUX</div>
+        <div class="nav-menu">
+            {
+                navItems.map((item) => (
+                    <a href={item.href} class="nav-link">
+                        {item.label}
+                    </a>
+                ))
+            }
+        </div>
+        <div class="nav-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
 </header>
-<!--  -->
+
+<style>
+    .header {
+        position: sticky;
+        top: 0;
+        background: rgba(15, 15, 35, 0.95);
+        backdrop-filter: blur(20px);
+        z-index: 1000;
+        border-bottom: 1px solid var(--glass-border);
+    }
+
+    .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        font-size: 1.8rem;
+        font-weight: 800;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .nav-menu {
+        display: none;
+    }
+
+    .nav-link {
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+        color: var(--accent-gold);
+    }
+
+    .nav-toggle {
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    @media (min-width: 768px) {
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-toggle {
+            display: none;
+        }
+    }
+</style>

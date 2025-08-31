@@ -1,9 +1,62 @@
 ---
+const socialLinks = [
+    { icon: 'fab fa-instagram', href: 'https://instagram.com/chronux.shop', label: 'Instagram' },
+    { icon: 'fab fa-facebook', href: '#', label: 'Facebook' },
+    { icon: 'fab fa-twitter', href: '#', label: 'Twitter' },
+    { icon: 'fas fa-envelope', href: 'mailto:info@chronux.shop', label: 'Email' }
+];
 
+const currentYear = new Date().getFullYear();
 ---
 
-<footer class="pt-16 pb-12 sm:pt-24 sm:pb-16">
-    <p class="text-sm">
-        <a href="https://docs.netlify.com/frameworks/astro/" class="decoration-dashed text-primary underline-offset-8"> Astro on Netlify </a>
-    </p>
+<footer class="footer" id="contacto">
+    <div class="footer-content">
+        <div class="social-links">
+            {
+                socialLinks.map((link) => (
+                    <a href={link.href} class="social-link" aria-label={link.label}>
+                        <i class={link.icon} />
+                    </a>
+                ))
+            }
+        </div>
+        <p class="footer-text">© {currentYear} Chronux.shop - Todos los derechos reservados</p>
+    </div>
 </footer>
+
+<style>
+    .footer {
+        background: rgba(15, 15, 35, 0.8);
+        padding: 3rem 1.5rem 2rem;
+        text-align: center;
+        border-top: 1px solid var(--glass-border);
+    }
+
+    .footer-content {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .social-link {
+        color: var(--text-secondary);
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+        color: var(--accent-gold);
+        transform: translateY(-2px);
+    }
+
+    .footer-text {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+</style>
