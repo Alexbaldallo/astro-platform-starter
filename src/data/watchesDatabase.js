@@ -14,37 +14,37 @@ export const WATCHES_DATABASE = {
             reviewCount: 25847,
             bestseller: true,
             category: 'clasico',
-            affiliateLink: 'https://www.amazon.es/dp/B08G8YQZPX?tag=tu-afiliado-21'
+            affiliateLink: 'https://amzn.to/3UWmvb7'
         },
         {
             asin: 'B09JQKL3NP',
-            name: 'CHRONOS',
-            brand: 'CHRONOS',
-            currentPrice: 36.99,
-            originalPrice: 349,
-            discount: 34,
-            image: 'https://m.media-amazon.com/images/I/71Swt7rPNaL._AC_SX679_.jpg',
+            name: 'Chrono',
+            brand: 'LOTUS',
+            currentPrice: 84,
+            originalPrice: 84,
+            discount: 0,
+            image: 'https://m.media-amazon.com/images/I/51O6Rs1jrbL._AC_SX522_.jpg',
             features: ['Análisis corporal', 'GPS', '5ATM', 'Correa intercambiable'],
             rating: 4.2,
             reviewCount: 8934,
             bestseller: true,
             category: 'smartwatch',
-            affiliateLink: 'https://www.amazon.es/dp/B09JQKL3NP?tag=tu-afiliado-21'
+            affiliateLink: 'https://amzn.to/4n15oAI'
         },
         {
             asin: 'B08DFBZLHY',
-            name: 'Amazfit GTS 2 Mini',
-            brand: 'Amazfit',
-            currentPrice: 69,
-            originalPrice: 99,
+            name: 'Tommy Hilfiger',
+            brand: 'Tommy Hilfiger',
+            currentPrice: 100.99,
+            originalPrice: 115.34,
             discount: 30,
-            image: 'https://m.media-amazon.com/images/I/61wlWmpcCnL._AC_SX679_.jpg',
+            image: 'https://m.media-amazon.com/images/I/81LA9lyGDWL._AC_SX522_.jpg',
             features: ['SpO2', 'Batería 14 días', 'GPS', '68 modos deportivos'],
             rating: 4.1,
             reviewCount: 5432,
             bestseller: false,
             category: 'fitness',
-            affiliateLink: 'https://www.amazon.es/dp/B08DFBZLHY?tag=tu-afiliado-21'
+            affiliateLink: 'https://amzn.to/3HMFzpl'
         }
         // ... resto de productos
     ],

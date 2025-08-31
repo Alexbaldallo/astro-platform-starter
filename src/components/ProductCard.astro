@@ -1,4 +1,5 @@
 ---
+// Props de cada producto
 export interface Props {
     name: string;
     brand: string;
@@ -8,15 +9,16 @@ export interface Props {
     features: string[];
     bestseller?: boolean;
     affiliateLink?: string;
+    image: string;
 }
 
-const { name, brand, currentPrice, originalPrice, discount, features, bestseller = false, affiliateLink = '#' } = Astro.props;
+const { name, brand, currentPrice, originalPrice, discount, features, bestseller = false, affiliateLink = '#', image } = Astro.props;
 ---
 
 <div class="product-card">
     <div class="product-image">
         {bestseller && <div class="bestseller-badge">MÁS VENDIDO</div>}
-        <i class="fas fa-clock watch-icon"></i>
+        <img src={image} alt={name} class="watch-img" />
     </div>
 
     <div class="product-info">
@@ -59,39 +61,19 @@ const { name, brand, currentPrice, originalPrice, discount, features, bestseller
     .product-image {
         width: 100%;
         height: 250px;
-        background: linear-gradient(135deg, #1a1a2e, #16213e);
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
         overflow: hidden;
+        background: #f8f8f8;
     }
 
-    .product-image::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(circle at center, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
-    }
-
-    .watch-icon {
-        font-size: 4rem;
-        color: var(--accent-gold);
+    .watch-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ajusta la imagen al cuadro sin dejar huecos */
         z-index: 1;
-        animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-        0%,
-        100% {
-            transform: translateY(0px);
-        }
-        50% {
-            transform: translateY(-10px);
-        }
     }
 
     .bestseller-badge {
