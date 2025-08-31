@@ -1,44 +1,27 @@
 ---
 import ProductCard from './ProductCard.astro';
+import { WATCHES_DATABASE } from '../data/watchesDatabase.js';
 
-// AQUÍ PUEDES CONECTAR CON TU API DE AMAZON MÁS TARDE
-const featuredProducts = [
-    {
-        name: 'Reloj Deportivo Elite',
-        brand: 'Marca Premium',
-        currentPrice: 89,
-        originalPrice: 149,
-        discount: 40,
-        features: ['Resistente al agua', 'Cronómetro integrado', 'Correa deportiva', 'Garantía 2 años'],
-        bestseller: true,
-        affiliateLink: 'https://amazon.es/tu-enlace-afiliado-1'
-    },
-    {
-        name: 'Reloj Clásico Elegante',
-        brand: 'Colección Executive',
-        currentPrice: 129,
-        originalPrice: 199,
-        discount: 35,
-        features: ['Diseño minimalista', 'Correa de cuero', 'Movimiento cuarzo', 'Caja de acero inoxidable'],
-        affiliateLink: 'https://amazon.es/tu-enlace-afiliado-2'
-    },
-    {
-        name: 'Smartwatch Pro',
-        brand: 'Tecnología Avanzada',
-        currentPrice: 199,
-        originalPrice: 299,
-        discount: 33,
-        features: ['Monitor de salud', 'GPS integrado', 'Pantalla AMOLED', 'Batería 7 días'],
-        affiliateLink: 'https://amazon.es/tu-enlace-afiliado-3'
-    }
-];
+// Simular pequeñas actualizaciones de precio
+WATCHES_DATABASE.updatePrices();
+
+// Obtener productos (puedes cambiar la categoría)
+const products = WATCHES_DATABASE.getProducts('all', 6);
 ---
 
 <section class="featured-products" id="productos">
     <div class="container">
-        <h2 class="section-title">Más Vendidos</h2>
+        <h2 class="section-title">Los Más Vendidos en Amazon</h2>
+        <p class="update-time">Actualizado: {new Date().toLocaleDateString('es-ES')}</p>
+
         <div class="products-grid">
-            {featuredProducts.map((product) => <ProductCard {...product} />)}
+            {products.map((product) => <ProductCard {...product} />)}
+        </div>
+
+        <div class="view-more">
+            <a href="/productos" class="view-more-btn">
+                <i class="fas fa-search"></i> Ver Todos los Productos
+            </a>
         </div>
     </div>
 </section>
@@ -57,11 +40,18 @@ const featuredProducts = [
         text-align: center;
         font-size: 2.5rem;
         font-weight: 800;
-        margin-bottom: 3rem;
+        margin-bottom: 1rem;
         background: linear-gradient(45deg, #fff, #ffd700);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+    }
+
+    .update-time {
+        text-align: center;
+        color: var(--text-secondary);
+        margin-bottom: 3rem;
+        font-size: 0.9rem;
     }
 
     .products-grid {
@@ -69,6 +59,28 @@ const featuredProducts = [
         grid-template-columns: 1fr;
         gap: 2rem;
         margin-bottom: 3rem;
+    }
+
+    .view-more {
+        text-align: center;
+    }
+
+    .view-more-btn {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        color: var(--text-primary);
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .view-more-btn:hover {
+        background: var(--secondary-gradient);
+        color: #000;
+        transform: translateY(-2px);
     }
 
     @media (min-width: 768px) {
