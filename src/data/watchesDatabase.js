@@ -44,6 +44,21 @@ export const WATCHES_DATABASE = {
             bestseller: true,
             category: 'fitness',
             affiliateLink: 'https://amzn.to/3HMFzpl'
+        },
+        {
+            asin: 'B08DFBZLHK',
+            name: 'SSB407P1',
+            brand: 'Seiko',
+            currentPrice: 203.56,
+            originalPrice: 265.56,
+            discount: 30,
+            image: 'https://m.media-amazon.com/images/I/61wxp5LJ3PL._AC_SX522_.jpg',
+            features: ['Elegante', 'Cómodo', 'Luminoso', 'Resistente agua'],
+            rating: 4.1,
+            reviewCount: 5432,
+            bestseller: true,
+            category: 'fitness',
+            affiliateLink: 'https://amzn.to/4nabKOt'
         }
         // ... resto de productos
     ],
