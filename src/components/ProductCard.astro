@@ -8,16 +8,19 @@ export interface Props {
     discount: number;
     features: string[];
     bestseller?: boolean;
+    flashSale?: boolean; // <-- Nuevo
     affiliateLink?: string;
     image: string;
 }
 
-const { name, brand, currentPrice, originalPrice, discount, features, bestseller = false, affiliateLink = '#', image } = Astro.props;
+const { name, brand, currentPrice, originalPrice, discount, features, bestseller = false, flashSale, affiliateLink = '#', image } = Astro.props;
 ---
 
 <div class="product-card">
     <div class="product-image">
         {bestseller && <div class="bestseller-badge">MÁS VENDIDO</div>}
+        {flashSale && <div class="flashsale-badge">OFERTA FLASH</div>}
+
         <img src={image} alt={name} class="watch-img" />
     </div>
 
@@ -176,5 +179,19 @@ const { name, brand, currentPrice, originalPrice, discount, features, bestseller
     .buy-button:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+    }
+    .flashsale-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem; /* A la derecha */
+        background: #ff4d4f; /* Rojo llamativo */
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        z-index: 2;
+        text-transform: uppercase;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
 </style>

@@ -2,10 +2,13 @@
 import ProductCard from './ProductCard.astro';
 import { WATCHES_DATABASE } from '../data/watchesDatabase.js';
 
-// Simular pequeñas actualizaciones de precio
+// Esperar a que se carguen los datos
+await WATCHES_DATABASE.load();
+
+// Actualizar precios
 WATCHES_DATABASE.updatePrices();
 
-// Obtener productos (puedes cambiar la categoría)
+// Obtener productos
 const products = WATCHES_DATABASE.getProducts('all', 6);
 ---
 
