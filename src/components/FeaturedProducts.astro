@@ -20,12 +20,6 @@ const products = WATCHES_DATABASE.getProducts('all', 6);
         <div class="products-grid">
             {products.map((product) => <ProductCard {...product} />)}
         </div>
-
-        <div class="view-more">
-            <a href="/productos" class="view-more-btn">
-                <i class="fas fa-search"></i> Ver Todos los Productos
-            </a>
-        </div>
     </div>
 </section>
 
