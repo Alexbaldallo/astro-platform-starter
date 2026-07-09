@@ -1,11 +1,13 @@
-# Automatización diaria de Chronux:
-#  1. Genera la imagen de la oferta del día y la publica en Instagram (si hay credenciales)
-#  2. Reconstruye la web en Netlify para que lea la hoja de Google actualizada
+# Automatización diaria de Chronux: genera la imagen de la oferta del día
+# y la publica en Instagram.
+#
+# (La web NO necesita este workflow para actualizarse: la portada se renderiza
+# en el servidor y lee la hoja de Google en cada visita, con caché de 5 min.)
 #
 # Secrets necesarios (Settings → Secrets and variables → Actions):
-#  - NETLIFY_BUILD_HOOK  URL del build hook de Netlify (obligatorio)
-#  - IG_USER_ID          ID de la cuenta de Instagram de empresa (opcional)
-#  - IG_ACCESS_TOKEN     Token de la Graph API de Meta (opcional)
+#  - IG_USER_ID          ID de la cuenta de Instagram de empresa
+#  - IG_ACCESS_TOKEN     Token de la Graph API de Meta
+# Sin ellos, el workflow no hace nada.
 name: Oferta diaria
 
 on:
@@ -18,7 +20,6 @@ permissions:
   contents: write
 
 env:
-  NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
   IG_USER_ID: ${{ secrets.IG_USER_ID }}
   IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
 
@@ -57,12 +58,6 @@ jobs:
             git push
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
-
-      # Este push ya provoca un deploy en Netlify (repo conectado), que además
-      # relee la hoja de Google. El build hook solo hace falta si no hubo push.
-      - name: Reconstruir la web en Netlify
-        if: env.NETLIFY_BUILD_HOOK != '' && steps.push_imagen.outputs.pushed != 'true'
-        run: curl -fsS -X POST -d '' "$NETLIFY_BUILD_HOOK"
 
       - name: Publicar en Instagram
         if: env.IG_ACCESS_TOKEN != ''

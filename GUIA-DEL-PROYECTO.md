@@ -5,9 +5,9 @@ Web de afiliados de Amazon con relojes ("Chronux"), construida con **Astro** + *
 ## Cómo funciona
 
 1. La página principal (`src/pages/index.astro`) muestra los productos con el componente `src/components/FeaturedProducts.astro`.
-2. Los productos **NO están en el código**: se leen desde una **hoja de Google Sheets publicada como CSV**. La URL está en `src/data/fetchBestsellers.js`.
-3. La lectura ocurre **al construir la web** (en cada deploy de Netlify), no en el navegador del visitante. Por eso, para que se vean cambios de la hoja hay que redesplegar.
-4. Los commits del historial llamados "Actualización automática de datos" son **commits vacíos**: su único propósito era forzar a Netlify a reconstruir la web y volver a leer la hoja.
+2. Los productos **NO están en el código**: se leen desde una **hoja de Google Sheets publicada como CSV**. La URL está en `src/data/sheetUrl.js`.
+3. La portada se **renderiza en el servidor**: cada visita lee la hoja de Google al momento (el CDN de Netlify cachea la página 5 minutos para no saturar a Google). **Editas la hoja → los cambios aparecen solos en la web en unos 5-10 minutos** (Google tarda ~5 min en actualizar el CSV publicado + hasta 5 min de caché). Sin deploys, sin commits, sin tocar nada.
+4. (Historia) Los commits antiguos llamados "Actualización automática de datos" eran **commits vacíos** para forzar reconstrucciones cuando la web era estática. Ya no hacen falta.
 
 ## Respaldo local (nuevo)
 
@@ -54,10 +54,9 @@ Para probar la versión final: `npm run build` y `npm run preview`.
 
 ## Automatización diaria (GitHub Actions)
 
-El workflow `.github/workflows/oferta-diaria.yml` se ejecuta **todos los días a las 06:30 UTC** (08:30 hora española de verano) y hace dos cosas:
+El workflow `.github/workflows/oferta-diaria.yml` se ejecuta **todos los días a las 06:30 UTC** (08:30 hora española de verano) y **publica la oferta del día en Instagram**: elige el producto de tu hoja (prioridad: ofertas flash → mayor descuento, rotando cada día), genera una imagen 1080×1080 con la estética de la marca y la publica en `@chronux.shop` con su texto, hashtags y aviso de afiliado.
 
-1. **Actualiza la web**: reconstruye el sitio en Netlify para que lea la hoja de Google con los cambios del día.
-2. **Publica en Instagram** (solo si están configuradas las credenciales): elige la oferta del día de tu hoja (prioridad: ofertas flash → mayor descuento, rotando cada día), genera una imagen 1080×1080 con la estética de la marca y la publica en `@chronux.shop` con su texto, hashtags y aviso de afiliado.
+La web NO depende de este workflow: se actualiza sola leyendo la hoja en cada visita. Sin los secrets de Instagram, el workflow simplemente no hace nada.
 
 También puedes lanzarlo a mano: GitHub → pestaña **Actions** → "Oferta diaria" → **Run workflow**.
 
@@ -65,11 +64,10 @@ También puedes lanzarlo a mano: GitHub → pestaña **Actions** → "Oferta dia
 
 En GitHub: **Settings → Secrets and variables → Actions → New repository secret**:
 
-| Secret | Qué es | Obligatorio |
-|---|---|---|
-| `NETLIFY_BUILD_HOOK` | URL del build hook de Netlify (*Site configuration → Build & deploy → Build hooks*) | Sí |
-| `IG_USER_ID` | ID numérico de la cuenta de Instagram de empresa | Solo para Instagram |
-| `IG_ACCESS_TOKEN` | Token de acceso de la Graph API de Meta | Solo para Instagram |
+| Secret | Qué es |
+|---|---|
+| `IG_USER_ID` | ID numérico de la cuenta de Instagram de empresa |
+| `IG_ACCESS_TOKEN` | Token de acceso de la Graph API de Meta |
 
 ### Cómo conseguir las credenciales de Instagram (gratis)
 
@@ -94,12 +92,5 @@ Cuando tu cuenta de Amazon Associates acumule 3 ventas, Amazon te dará acceso g
 
 ## Desplegar y actualizar productos
 
-- La web se despliega en **Netlify** (entra en [app.netlify.com](https://app.netlify.com) con tu cuenta; el sitio debería seguir ahí, conectado a este repositorio de GitHub).
-- Cada `git push` a `main` lanza un deploy automático.
-- **Para actualizar los productos**: edita la hoja de Google y luego fuerza un redeploy. Opciones:
-  - Desde Netlify: *Deploys → Trigger deploy → Deploy site*.
-  - Con un commit vacío (lo que hacía la automatización antigua):
-    ```bash
-    git commit --allow-empty -m "Actualización automática de datos" && git push
-    ```
-  - O crea un **Build Hook** en Netlify (*Site configuration → Build & deploy → Build hooks*) y llama a esa URL cuando cambies la hoja.
+- **Para actualizar los productos**: edita la hoja de Google. Nada más. Los cambios aparecen en chronux.shop en unos 5-10 minutos.
+- La web se despliega en **Netlify** ([app.netlify.com](https://app.netlify.com)), conectada a este repositorio: cada `git push` a `main` despliega automáticamente los cambios **de código** (los deploys solo hacen falta para el código, no para los productos).
