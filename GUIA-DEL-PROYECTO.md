@@ -86,6 +86,12 @@ node automation/oferta-diaria.mjs generar   # genera public/ig/oferta-<fecha>.jp
 node automation/oferta-diaria.mjs publicar  # publica en Instagram (necesita IG_USER_ID e IG_ACCESS_TOKEN)
 ```
 
+### Añadir productos en 2 clics (Tampermonkey)
+
+El userscript `automation/chronux-copiar-producto.user.js` añade un botón dorado "⌚ Copiar para Chronux" en cualquier página de producto de Amazon. Al pulsarlo, copia la fila completa (nombre, marca, precios, foto, características y enlace con tu tag de afiliado) lista para pegar en la hoja de Google: al pegar, cada dato cae en su columna.
+
+Instalación: extensión **Tampermonkey** en el navegador → *Crear nuevo script* → pegar el contenido del archivo → cambiar `AFFILIATE_TAG` por tu tag de Amazon Associates → guardar. Después: abre un reloj en Amazon → botón → pega en la hoja (Ctrl+V) → en ~10 minutos aparece en la web.
+
 ### Siguiente nivel: Amazon Product Advertising API
 
 Cuando tu cuenta de Amazon Associates acumule 3 ventas, Amazon te dará acceso gratuito a su **Product Advertising API**, con la que se puede automatizar también la búsqueda de ofertas y la actualización de precios/fotos sin tocar la hoja. Hasta entonces, la hoja de Google es el panel de control manual.
