@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # Local Netlify folder
 .netlify
+
+# Estado temporal de la automatización
+automation/.oferta-hoy.json

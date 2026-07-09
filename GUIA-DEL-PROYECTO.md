@@ -56,6 +56,46 @@ npm run dev        # abre http://localhost:4321
 
 Para probar la versión final: `npm run build` y `npm run preview`.
 
+## Automatización diaria (GitHub Actions)
+
+El workflow `.github/workflows/oferta-diaria.yml` se ejecuta **todos los días a las 06:30 UTC** (08:30 hora española de verano) y hace dos cosas:
+
+1. **Actualiza la web**: reconstruye el sitio en Netlify para que lea la hoja de Google con los cambios del día.
+2. **Publica en Instagram** (solo si están configuradas las credenciales): elige la oferta del día de tu hoja (prioridad: ofertas flash → mayor descuento, rotando cada día), genera una imagen 1080×1080 con la estética de la marca y la publica en `@chronux.shop` con su texto, hashtags y aviso de afiliado.
+
+También puedes lanzarlo a mano: GitHub → pestaña **Actions** → "Oferta diaria" → **Run workflow**.
+
+### Secrets que hay que configurar
+
+En GitHub: **Settings → Secrets and variables → Actions → New repository secret**:
+
+| Secret | Qué es | Obligatorio |
+|---|---|---|
+| `NETLIFY_BUILD_HOOK` | URL del build hook de Netlify (*Site configuration → Build & deploy → Build hooks*) | Sí |
+| `IG_USER_ID` | ID numérico de la cuenta de Instagram de empresa | Solo para Instagram |
+| `IG_ACCESS_TOKEN` | Token de acceso de la Graph API de Meta | Solo para Instagram |
+
+### Cómo conseguir las credenciales de Instagram (gratis)
+
+1. Convierte `@chronux.shop` en **cuenta de empresa** (Instagram → Configuración → Herramientas para empresas).
+2. Crea una **página de Facebook** y vincúlala a la cuenta de Instagram.
+3. En [developers.facebook.com](https://developers.facebook.com) crea una app (tipo *Business*) y añade el producto *Instagram Graph API*.
+4. En el *Graph API Explorer* genera un token con los permisos `instagram_basic`, `instagram_content_publish` y `pages_show_list`, y conviértelo en **token de larga duración** (~60 días; hay que renovarlo periódicamente).
+5. El `IG_USER_ID` se obtiene consultando `me/accounts` → página → `instagram_business_account`.
+
+> ⚠️ El token de larga duración caduca cada ~60 días. Si un día deja de publicar, lo más probable es que haya que generar un token nuevo y actualizar el secret.
+
+### Probar en local
+
+```bash
+node automation/oferta-diaria.mjs generar   # genera public/ig/oferta-<fecha>.jpg
+node automation/oferta-diaria.mjs publicar  # publica en Instagram (necesita IG_USER_ID e IG_ACCESS_TOKEN)
+```
+
+### Siguiente nivel: Amazon Product Advertising API
+
+Cuando tu cuenta de Amazon Associates acumule 3 ventas, Amazon te dará acceso gratuito a su **Product Advertising API**, con la que se puede automatizar también la búsqueda de ofertas y la actualización de precios/fotos sin tocar la hoja. Hasta entonces, la hoja de Google es el panel de control manual.
+
 ## Desplegar y actualizar productos
 
 - La web se despliega en **Netlify** (entra en [app.netlify.com](https://app.netlify.com) con tu cuenta; el sitio debería seguir ahí, conectado a este repositorio de GitHub).
