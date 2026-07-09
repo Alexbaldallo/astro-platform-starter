@@ -88,9 +88,11 @@ node automation/oferta-diaria.mjs publicar  # publica en Instagram (necesita IG_
 
 ### Añadir productos en 2 clics (Tampermonkey)
 
-El userscript `automation/chronux-copiar-producto.user.js` añade un botón dorado "⌚ Copiar para Chronux" en cualquier página de producto de Amazon. Al pulsarlo, copia la fila completa (nombre, marca, precios, foto, características y enlace con tu tag de afiliado) lista para pegar en la hoja de Google: al pegar, cada dato cae en su columna.
+El userscript `automation/chronux-copiar-producto.user.js` añade un botón dorado "⌚ Copiar para Chronux" en cualquier página de producto de Amazon. Al pulsarlo, copia la fila completa (nombre, marca, precios, foto, características y enlace de afiliado) lista para pegar en la hoja de Google: al pegar, cada dato cae en su columna.
 
-Instalación: extensión **Tampermonkey** en el navegador → *Crear nuevo script* → pegar el contenido del archivo → cambiar `AFFILIATE_TAG` por tu tag de Amazon Associates → guardar. Después: abre un reloj en Amazon → botón → pega en la hoja (Ctrl+V) → en ~10 minutos aparece en la web.
+**Flujo**: en la página del reloj, copia primero tu enlace de afiliado con **SiteStripe** ("Obtener enlace" → copiar el `amzn.to/...`) → pulsa el botón dorado → el script lee ese enlace del portapapeles y lo usa como `affiliateLink` → pega en la hoja (Ctrl+V). Si no había ningún enlace de Amazon copiado, avisa y usa un enlace construido con el `AFFILIATE_TAG` configurado en el script.
+
+Instalación: extensión **Tampermonkey** en el navegador → *Crear nuevo script* → pegar el contenido del archivo → cambiar `AFFILIATE_TAG` por tu tag de Amazon Associates (respaldo) → guardar. La primera vez que pulses el botón, el navegador pedirá permiso para leer el portapapeles: acepta.
 
 ### Siguiente nivel: Amazon Product Advertising API
 
