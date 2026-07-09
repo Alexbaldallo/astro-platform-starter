@@ -1,0 +1,69 @@
+# Automatización diaria de Chronux:
+#  1. Genera la imagen de la oferta del día y la publica en Instagram (si hay credenciales)
+#  2. Reconstruye la web en Netlify para que lea la hoja de Google actualizada
+#
+# Secrets necesarios (Settings → Secrets and variables → Actions):
+#  - NETLIFY_BUILD_HOOK  URL del build hook de Netlify (obligatorio)
+#  - IG_USER_ID          ID de la cuenta de Instagram de empresa (opcional)
+#  - IG_ACCESS_TOKEN     Token de la Graph API de Meta (opcional)
+name: Oferta diaria
+
+on:
+  schedule:
+    # 06:30 UTC = 08:30 en España en verano (07:30 en invierno). Los minutos en punto van saturados en GitHub.
+    - cron: '30 6 * * *'
+  workflow_dispatch: # permite lanzarlo a mano desde la pestaña Actions
+
+permissions:
+  contents: write
+
+env:
+  NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+  IG_USER_ID: ${{ secrets.IG_USER_ID }}
+  IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+
+jobs:
+  oferta-diaria:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        if: env.IG_ACCESS_TOKEN != ''
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Generar imagen de la oferta del día
+        if: env.IG_ACCESS_TOKEN != ''
+        run: node automation/oferta-diaria.mjs generar
+
+      - name: Subir la imagen al repositorio (la servirá chronux.shop)
+        if: env.IG_ACCESS_TOKEN != ''
+        id: push_imagen
+        run: |
+          git config user.name "chronux-bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A public/ig
+          if git diff --cached --quiet; then
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "Oferta del día $(date -u +%F) para Instagram"
+            git push
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Este push ya provoca un deploy en Netlify (repo conectado), que además
+      # relee la hoja de Google. El build hook solo hace falta si no hubo push.
+      - name: Reconstruir la web en Netlify
+        if: env.NETLIFY_BUILD_HOOK != '' && steps.push_imagen.outputs.pushed != 'true'
+        run: curl -fsS -X POST -d '' "$NETLIFY_BUILD_HOOK"
+
+      - name: Publicar en Instagram
+        if: env.IG_ACCESS_TOKEN != ''
+        run: node automation/oferta-diaria.mjs publicar
