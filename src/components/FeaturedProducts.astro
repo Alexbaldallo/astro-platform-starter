@@ -10,22 +10,29 @@ WATCHES_DATABASE.updatePrices();
 
 // Obtener productos
 const products = WATCHES_DATABASE.getProducts('all', 6);
+
+const updated = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 
 <section class="featured-products" id="productos">
     <div class="container">
-        <h2 class="section-title">Ofertas en Amazon</h2>
-        <p class="update-time">Actualizado: {new Date().toLocaleDateString('es-ES')}</p>
+        <header class="section-header">
+            <p class="section-kicker">Selección del día</p>
+            <h2 class="section-title">Ofertas en Amazon</h2>
+            <p class="update-time">Precios revisados el {updated}</p>
+        </header>
 
         <div class="products-grid">
             {products.map((product) => <ProductCard {...product} />)}
         </div>
+
+        <p class="affiliate-note">Los precios pueden variar en Amazon. Al comprar a través de nuestros enlaces, Amazon nos paga una pequeña comisión sin coste extra para ti.</p>
     </div>
 </section>
 
 <style>
     .featured-products {
-        padding: 4rem 1.5rem;
+        padding: 5rem 1.5rem;
     }
 
     .container {
@@ -33,21 +40,37 @@ const products = WATCHES_DATABASE.getProducts('all', 6);
         margin: 0 auto;
     }
 
-    .section-title {
+    .section-header {
         text-align: center;
-        font-size: 2.5rem;
-        font-weight: 800;
+        margin-bottom: 3.5rem;
+    }
+
+    .section-kicker {
+        font-size: 0.78rem;
+        letter-spacing: 0.45em;
+        text-transform: uppercase;
+        color: var(--gold);
         margin-bottom: 1rem;
-        background: linear-gradient(45deg, #fff, #ffd700);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+    }
+
+    .section-title {
+        font-size: 2.6rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        color: var(--text-primary);
+    }
+
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 64px;
+        height: 1px;
+        background: var(--gold-gradient);
+        margin: 1.25rem auto 0;
     }
 
     .update-time {
-        text-align: center;
-        color: var(--text-secondary);
-        margin-bottom: 3rem;
+        color: var(--text-muted);
         font-size: 0.9rem;
     }
 
@@ -55,29 +78,17 @@ const products = WATCHES_DATABASE.getProducts('all', 6);
         display: grid;
         grid-template-columns: 1fr;
         gap: 2rem;
-        margin-bottom: 3rem;
     }
 
-    .view-more {
+    .affiliate-note {
+        margin-top: 2.5rem;
         text-align: center;
-    }
-
-    .view-more-btn {
-        display: inline-block;
-        padding: 1rem 2rem;
-        background: var(--glass-bg);
-        border: 1px solid var(--glass-border);
-        color: var(--text-primary);
-        text-decoration: none;
-        border-radius: 50px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .view-more-btn:hover {
-        background: var(--secondary-gradient);
-        color: #000;
-        transform: translateY(-2px);
+        color: var(--text-muted);
+        font-size: 0.82rem;
+        max-width: 640px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
     }
 
     @media (min-width: 768px) {

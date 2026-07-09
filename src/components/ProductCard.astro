@@ -8,33 +8,34 @@ export interface Props {
     discount: number;
     features: string[];
     bestseller?: boolean;
-    flashSale?: boolean; // <-- Nuevo
+    flashSale?: boolean;
     affiliateLink?: string;
     image: string;
 }
 
 const { name, brand, currentPrice, originalPrice, discount, features, bestseller = false, flashSale, affiliateLink = '#', image } = Astro.props;
+
+const euros = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' });
 ---
 
-<div class="product-card">
-    <div class="product-image">
-        {bestseller && <div class="bestseller-badge">MÁS VENDIDO</div>}
-        {flashSale && <div class="flashsale-badge">OFERTA FLASH</div>}
-
-        <img src={image} alt={name} class="watch-img" />
-    </div>
+<article class="product-card">
+    <a href={affiliateLink} target="_blank" rel="sponsored nofollow noopener" class="product-image" aria-label={`Ver ${name} en Amazon`}>
+        {bestseller && <span class="badge badge-bestseller">Más vendido</span>}
+        {flashSale && <span class="badge badge-flash">Oferta flash</span>}
+        <img src={image} alt={name} class="watch-img" loading="lazy" />
+    </a>
 
     <div class="product-info">
-        <h3 class="product-name">{name}</h3>
         <p class="product-brand">{brand}</p>
+        <h3 class="product-name">{name}</h3>
 
         <div class="product-price">
-            <span class="price-current">{currentPrice}€</span>
+            <span class="price-current">{euros.format(currentPrice)}</span>
             {
                 discount > 0 && (
                     <>
-                        <span class="price-original">{originalPrice}€</span>
-                        <span class="discount">-{discount}%</span>
+                        <span class="price-original">{euros.format(originalPrice)}</span>
+                        <span class="discount">−{discount}%</span>
                     </>
                 )
             }
@@ -44,154 +45,179 @@ const { name, brand, currentPrice, originalPrice, discount, features, bestseller
             {features.map((feature) => <li>{feature}</li>)}
         </ul>
 
-        <button class="buy-button" onclick={`window.open('${affiliateLink}', '_blank')`}>
-            <i class="fas fa-shopping-cart"></i> Comprar Ahora
-        </button>
+        <a href={affiliateLink} target="_blank" rel="sponsored nofollow noopener" class="buy-button">
+            Ver oferta en Amazon
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </a>
     </div>
-</div>
+</article>
 
 <style>
     .product-card {
-        background: var(--glass-bg);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--glass-border);
-        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
         overflow: hidden;
-        transition: all 0.3s ease;
-        cursor: pointer;
+        transition:
+            transform 0.35s ease,
+            box-shadow 0.35s ease,
+            border-color 0.35s ease;
     }
 
     .product-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        border-color: rgba(255, 215, 0, 0.3);
+        transform: translateY(-6px);
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45);
+        border-color: var(--line-gold);
     }
 
+    /* Panel claro tipo tienda: las fotos de Amazon (fondo blanco) se integran */
     .product-image {
-        width: 100%;
-        height: 250px;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
-        overflow: hidden;
-        background: #f8f8f8;
+        height: 270px;
+        padding: 1.75rem;
+        background: linear-gradient(180deg, #faf9f6 0%, #edeae3 100%);
     }
 
     .watch-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* Ajusta la imagen al cuadro sin dejar huecos */
-        z-index: 1;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        transition: transform 0.4s ease;
     }
 
-    .bestseller-badge {
+    .product-card:hover .watch-img {
+        transform: scale(1.05);
+    }
+
+    .badge {
         position: absolute;
         top: 1rem;
-        left: 1rem;
-        background: var(--secondary-gradient);
-        color: #000;
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
-        font-size: 0.8rem;
+        padding: 0.35rem 0.8rem;
+        border-radius: 3px;
+        font-size: 0.68rem;
         font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
         z-index: 2;
     }
 
+    .badge-bestseller {
+        left: 1rem;
+        background: #14110a;
+        color: var(--gold-strong);
+    }
+
+    .badge-flash {
+        right: 1rem;
+        background: #b3261e;
+        color: #fff;
+    }
+
     .product-info {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
         padding: 1.5rem;
     }
 
-    .product-name {
-        font-size: 1.3rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-        color: var(--text-primary);
+    .product-brand {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 0.35rem;
     }
 
-    .product-brand {
-        color: var(--text-secondary);
+    .product-name {
+        font-size: 1.4rem;
+        font-weight: 600;
         margin-bottom: 1rem;
-        font-size: 0.9rem;
+        color: var(--text-primary);
     }
 
     .product-price {
         display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
+        align-items: baseline;
+        gap: 0.6rem;
+        margin-bottom: 1.25rem;
         flex-wrap: wrap;
     }
 
     .price-current {
         font-size: 1.5rem;
-        font-weight: 800;
-        color: var(--accent-gold);
+        font-weight: 700;
+        color: var(--text-primary);
     }
 
     .price-original {
         text-decoration: line-through;
         color: var(--text-muted);
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 
     .discount {
-        background: var(--secondary-gradient);
-        color: #000;
-        padding: 0.3rem 0.8rem;
-        border-radius: 20px;
-        font-size: 0.8rem;
+        background: var(--gold-gradient);
+        color: #14110a;
+        padding: 0.2rem 0.55rem;
+        border-radius: 3px;
+        font-size: 0.75rem;
         font-weight: 700;
     }
 
     .product-features {
         list-style: none;
         margin-bottom: 1.5rem;
+        border-top: 1px solid var(--line);
+        padding-top: 1rem;
     }
 
     .product-features li {
-        padding: 0.3rem 0;
+        padding: 0.28rem 0;
         color: var(--text-secondary);
-        font-size: 0.9rem;
+        font-size: 0.88rem;
     }
 
     .product-features li::before {
         content: '✓';
-        color: var(--accent-gold);
+        color: var(--gold);
         font-weight: bold;
-        margin-right: 0.5rem;
+        margin-right: 0.6rem;
     }
 
     .buy-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: auto;
         width: 100%;
-        padding: 1rem;
-        background: var(--secondary-gradient);
-        color: #000;
+        padding: 0.95rem;
+        background: var(--gold-gradient);
+        color: #14110a;
         border: none;
-        border-radius: 12px;
+        border-radius: 4px;
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: 0.82rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-decoration: none;
         cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+        box-shadow: 0 5px 15px rgba(201, 168, 106, 0.2);
     }
 
     .buy-button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
-    }
-    .flashsale-badge {
-        position: absolute;
-        top: 1rem;
-        right: 1rem; /* A la derecha */
-        background: #ff4d4f; /* Rojo llamativo */
-        color: #fff;
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        z-index: 2;
-        text-transform: uppercase;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 8px 25px rgba(201, 168, 106, 0.35);
     }
 </style>

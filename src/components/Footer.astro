@@ -1,9 +1,13 @@
 ---
+const navLinks = [
+    { href: '#inicio', label: 'Inicio' },
+    { href: '#productos', label: 'Colección' },
+    { href: '#ventajas', label: 'Por qué Chronux' }
+];
+
 const socialLinks = [
-    { icon: 'fab fa-instagram', href: 'https://instagram.com/chronux.shop', label: 'Instagram' },
-    { icon: 'fab fa-facebook', href: '#', label: 'Facebook' },
-    { icon: 'fab fa-twitter', href: '#', label: 'Twitter' },
-    { icon: 'fas fa-envelope', href: 'mailto:info@chronux.shop', label: 'Email' }
+    { icon: 'instagram', href: 'https://instagram.com/chronux.shop', label: 'Instagram' },
+    { icon: 'email', href: 'mailto:info@chronux.shop', label: 'Email' }
 ];
 
 const currentYear = new Date().getFullYear();
@@ -11,52 +15,176 @@ const currentYear = new Date().getFullYear();
 
 <footer class="footer" id="contacto">
     <div class="footer-content">
-        <div class="social-links">
-            {
-                socialLinks.map((link) => (
-                    <a href={link.href} class="social-link" aria-label={link.label}>
-                        <i class={link.icon} />
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <p class="footer-logo">CHRONUX<span class="logo-dot">.</span></p>
+                <p class="footer-tagline">Relojería seleccionada, cada día, entre las mejores ofertas de Amazon.</p>
+                <div class="social-links">
+                    {
+                        socialLinks.map((link) => (
+                            <a href={link.href} class="social-link" aria-label={link.label} target="_blank" rel="noopener">
+                                {link.icon === 'instagram' && (
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="2" y="2" width="20" height="20" rx="5" />
+                                        <circle cx="12" cy="12" r="4.5" />
+                                        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+                                    </svg>
+                                )}
+                                {link.icon === 'email' && (
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="2" y="4" width="20" height="16" rx="3" />
+                                        <path d="M2 7l10 7L22 7" />
+                                    </svg>
+                                )}
+                            </a>
+                        ))
+                    }
+                </div>
+            </div>
+
+            <nav class="footer-nav" aria-label="Navegación del pie">
+                <p class="footer-heading">Explorar</p>
+                {navLinks.map((link) => (
+                    <a href={link.href} class="footer-link">
+                        {link.label}
                     </a>
-                ))
-            }
+                ))}
+            </nav>
+
+            <div class="footer-contact">
+                <p class="footer-heading">Contacto</p>
+                <a href="mailto:info@chronux.shop" class="footer-link">info@chronux.shop</a>
+                <a href="https://instagram.com/chronux.shop" class="footer-link" target="_blank" rel="noopener">@chronux.shop</a>
+            </div>
         </div>
-        <p class="footer-text">© {currentYear} Chronux.shop - Todos los derechos reservados</p>
+
+        <div class="footer-bottom">
+            <p class="affiliate-disclosure">
+                En calidad de Afiliado de Amazon, Chronux.shop obtiene ingresos por las compras adscritas que cumplen los requisitos aplicables.
+            </p>
+            <p class="footer-text">© {currentYear} Chronux.shop — Todos los derechos reservados</p>
+        </div>
     </div>
 </footer>
 
 <style>
     .footer {
-        background: rgba(15, 15, 35, 0.8);
-        padding: 3rem 1.5rem 2rem;
-        text-align: center;
-        border-top: 1px solid var(--glass-border);
+        background: var(--bg-soft);
+        padding: 4rem 1.5rem 2rem;
+        border-top: 1px solid var(--line);
     }
 
     .footer-content {
-        max-width: 1000px;
+        max-width: 1200px;
         margin: 0 auto;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .footer-logo {
+        font-family: var(--font-display);
+        font-size: 1.4rem;
+        font-weight: 600;
+        letter-spacing: 0.32em;
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+    }
+
+    .logo-dot {
+        color: var(--gold);
+    }
+
+    .footer-tagline {
+        color: var(--text-secondary);
+        font-size: 0.92rem;
+        line-height: 1.6;
+        max-width: 320px;
+        margin-bottom: 1.5rem;
+    }
+
+    .footer-heading {
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 1.25rem;
+    }
+
+    .footer-nav,
+    .footer-contact {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer-link {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 0.92rem;
+        padding: 0.3rem 0;
+        transition: color 0.3s ease;
+    }
+
+    .footer-link:hover {
+        color: var(--gold-strong);
     }
 
     .social-links {
         display: flex;
-        justify-content: center;
-        gap: 1.5rem;
-        margin-bottom: 2rem;
+        gap: 1rem;
     }
 
     .social-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--line);
+        border-radius: 50%;
         color: var(--text-secondary);
-        font-size: 1.5rem;
         transition: all 0.3s ease;
     }
 
+    .social-link svg {
+        width: 17px;
+        height: 17px;
+    }
+
     .social-link:hover {
-        color: var(--accent-gold);
+        color: var(--gold-strong);
+        border-color: var(--line-gold);
         transform: translateY(-2px);
+    }
+
+    .footer-bottom {
+        border-top: 1px solid var(--line);
+        padding-top: 2rem;
+        text-align: center;
+    }
+
+    .affiliate-disclosure {
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        line-height: 1.6;
+        max-width: 640px;
+        margin: 0 auto 1rem;
     }
 
     .footer-text {
         color: var(--text-muted);
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+    }
+
+    @media (min-width: 768px) {
+        .footer-grid {
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 2rem;
+        }
     }
 </style>

@@ -1,15 +1,19 @@
 ---
 const navItems = [
     { href: '#inicio', label: 'Inicio' },
-    { href: '#productos', label: 'Productos' },
+    { href: '#productos', label: 'Colección' },
+    { href: '#ventajas', label: 'Por qué Chronux' },
     { href: '#contacto', label: 'Contacto' }
 ];
 ---
 
 <header class="header">
+    <div class="announcement">
+        Selección diaria de relojes con descuento en Amazon<span class="announcement-extra"> · Envío y devoluciones gestionados por Amazon</span>
+    </div>
     <nav class="nav">
-        <div class="logo">CHRONUX</div>
-        <div class="nav-menu">
+        <a href="#inicio" class="logo">CHRONUX<span class="logo-dot">.</span></a>
+        <div class="nav-menu" id="nav-menu">
             {
                 navItems.map((item) => (
                     <a href={item.href} class="nav-link">
@@ -18,38 +22,85 @@ const navItems = [
                 ))
             }
         </div>
-        <div class="nav-toggle">
-            <i class="fas fa-bars"></i>
-        </div>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </nav>
 </header>
+
+<script>
+    const toggle = document.getElementById('nav-toggle');
+    const menu = document.getElementById('nav-menu');
+
+    toggle?.addEventListener('click', () => {
+        const open = menu?.classList.toggle('open');
+        toggle.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', String(!!open));
+    });
+
+    menu?.querySelectorAll('a').forEach((link) =>
+        link.addEventListener('click', () => {
+            menu.classList.remove('open');
+            toggle?.classList.remove('open');
+            toggle?.setAttribute('aria-expanded', 'false');
+        })
+    );
+</script>
 
 <style>
     .header {
         position: sticky;
         top: 0;
-        background: rgba(15, 15, 35, 0.95);
+        background: rgba(11, 11, 14, 0.85);
         backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         z-index: 1000;
-        border-bottom: 1px solid var(--glass-border);
+        border-bottom: 1px solid var(--line);
+    }
+
+    .announcement {
+        text-align: center;
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #14110a;
+        background: var(--gold-gradient);
+        padding: 0.45rem 1rem;
+        font-weight: 600;
+    }
+
+    .announcement-extra {
+        display: none;
+    }
+
+    @media (min-width: 768px) {
+        .announcement-extra {
+            display: inline;
+        }
     }
 
     .nav {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 1rem 1.5rem;
+        padding: 1.1rem 1.5rem;
         max-width: 1200px;
         margin: 0 auto;
     }
 
     .logo {
-        font-size: 1.8rem;
-        font-weight: 800;
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: 0.32em;
+        color: var(--text-primary);
+        text-decoration: none;
+    }
+
+    .logo-dot {
+        color: var(--gold);
     }
 
     .nav-menu {
@@ -57,24 +108,72 @@ const navItems = [
     }
 
     .nav-link {
-        color: var(--text-primary);
+        color: var(--text-secondary);
         text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
         transition: color 0.3s ease;
     }
 
     .nav-link:hover {
-        color: var(--accent-gold);
+        color: var(--gold-strong);
     }
 
+    /* Botón hamburguesa (CSS puro, sin iconos externos) */
     .nav-toggle {
-        font-size: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 40px;
+        height: 40px;
+        padding: 8px;
+        background: none;
+        border: 1px solid var(--line);
+        border-radius: 8px;
         cursor: pointer;
+    }
+
+    .nav-toggle span {
+        display: block;
+        height: 1.5px;
+        width: 100%;
+        background: var(--text-primary);
+        transition: all 0.3s ease;
+    }
+
+    .nav-toggle.open span:nth-child(1) {
+        transform: translateY(6.5px) rotate(45deg);
+    }
+
+    .nav-toggle.open span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .nav-toggle.open span:nth-child(3) {
+        transform: translateY(-6.5px) rotate(-45deg);
+    }
+
+    /* Menú desplegable en móvil */
+    .nav-menu.open {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        padding: 1.5rem;
+        background: rgba(11, 11, 14, 0.97);
+        border-bottom: 1px solid var(--line);
     }
 
     @media (min-width: 768px) {
         .nav-menu {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
         }
         .nav-toggle {
             display: none;

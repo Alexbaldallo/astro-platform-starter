@@ -5,102 +5,188 @@ import Header from './Header.astro';
 <Header />
 
 <section class="hero" id="inicio">
+    <div class="hero-ring" aria-hidden="true"></div>
     <div class="hero-content">
-        <h1 class="hero-title">Elegancia y precisión</h1>
-        <p class="hero-subtitle">Diseños únicos, mecanismos de alta precisión y la distinción que tu tiempo merece</p>
-        <a href="#productos" class="cta-button pulse">Ver Colección</a>
+        <p class="hero-kicker">Relojería seleccionada</p>
+        <h1 class="hero-title">El tiempo, <em>bien elegido</em></h1>
+        <p class="hero-subtitle">
+            Cada día revisamos Amazon para encontrar relojes de marcas originales con descuentos reales. Tú eliges; del envío y la garantía se
+            encarga Amazon.
+        </p>
+        <div class="hero-actions">
+            <a href="#productos" class="cta-button">Ver la colección</a>
+            <a href="#ventajas" class="ghost-button">Por qué Chronux</a>
+        </div>
+        <ul class="hero-trust">
+            <li>Marcas originales</li>
+            <li>Garantía oficial</li>
+            <li>Envío por Amazon</li>
+        </ul>
     </div>
 </section>
 
 <style>
     .hero {
-        min-height: 90vh;
+        min-height: 82vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
-        padding: 2rem 1.5rem;
+        padding: 4rem 1.5rem;
         position: relative;
         overflow: hidden;
     }
 
-    .hero::before {
+    /* Esfera de reloj decorativa dibujada con CSS */
+    .hero-ring {
+        position: absolute;
+        width: 780px;
+        height: 780px;
+        border-radius: 50%;
+        border: 1px solid rgba(201, 168, 106, 0.18);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+    }
+
+    .hero-ring::before {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(circle at 30% 70%, rgba(255, 107, 53, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 70% 30%, rgba(255, 215, 0, 0.2) 0%, transparent 50%);
-        z-index: -1;
+        inset: 34px;
+        border-radius: 50%;
+        background: repeating-conic-gradient(rgba(201, 168, 106, 0.35) 0deg 0.6deg, transparent 0.6deg 30deg);
+        -webkit-mask: radial-gradient(closest-side, transparent 91%, #000 92%);
+        mask: radial-gradient(closest-side, transparent 91%, #000 92%);
+    }
+
+    .hero-ring::after {
+        content: '';
+        position: absolute;
+        inset: 90px;
+        border-radius: 50%;
+        border: 1px solid rgba(201, 168, 106, 0.09);
     }
 
     .hero-content {
-        max-width: 800px;
+        max-width: 820px;
         margin: 0 auto;
+        position: relative;
+    }
+
+    .hero-kicker {
+        font-size: 0.78rem;
+        letter-spacing: 0.45em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-kicker::before,
+    .hero-kicker::after {
+        content: '——';
+        color: var(--line-gold);
+        margin: 0 0.9rem;
+        letter-spacing: normal;
     }
 
     .hero-title {
         font-size: 3rem;
-        font-weight: 900;
-        margin-bottom: 1rem;
-        background: linear-gradient(45deg, #fff, #ffd700);
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        line-height: 1.12;
+        color: var(--text-primary);
+    }
+
+    .hero-title em {
+        font-style: italic;
+        background: var(--gold-gradient);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        line-height: 1.1;
     }
 
     .hero-subtitle {
-        font-size: 1.2rem;
-        margin-bottom: 2rem;
+        font-size: 1.1rem;
+        margin: 0 auto 2.5rem;
         color: var(--text-secondary);
-        max-width: 600px;
-        line-height: 1.5;
-        margin-left: auto;
-        margin-right: auto;
+        max-width: 560px;
+        line-height: 1.7;
+    }
+
+    .hero-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 3rem;
     }
 
     .cta-button {
         display: inline-block;
-        padding: 1rem 2rem;
-        background: var(--secondary-gradient);
-        color: #000;
+        padding: 1rem 2.5rem;
+        background: var(--gold-gradient);
+        color: #14110a;
         text-decoration: none;
-        border-radius: 50px;
-        font-weight: 700;
-        font-size: 1.1rem;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
         transition: all 0.3s ease;
-        box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
-        margin-bottom: 3rem;
+        box-shadow: 0 10px 30px rgba(201, 168, 106, 0.25);
     }
 
     .cta-button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 15px 40px rgba(255, 107, 53, 0.4);
+        box-shadow: 0 15px 40px rgba(201, 168, 106, 0.35);
     }
 
-    .pulse {
-        animation: pulse 2s infinite;
+    .ghost-button {
+        display: inline-block;
+        padding: 1rem 2.5rem;
+        background: transparent;
+        color: var(--text-primary);
+        text-decoration: none;
+        border: 1px solid var(--line-gold);
+        border-radius: 4px;
+        font-weight: 500;
+        font-size: 0.85rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
     }
 
-    @keyframes pulse {
-        0% {
-            box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
-        }
-        70% {
-            box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
-        }
-        100% {
-            box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
-        }
+    .ghost-button:hover {
+        border-color: var(--gold);
+        color: var(--gold-strong);
+    }
+
+    .hero-trust {
+        display: flex;
+        gap: 2.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        list-style: none;
+    }
+
+    .hero-trust li {
+        font-size: 0.78rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+
+    .hero-trust li::before {
+        content: '✓';
+        color: var(--gold);
+        margin-right: 0.5rem;
     }
 
     @media (min-width: 768px) {
         .hero-title {
-            font-size: 4rem;
+            font-size: 4.2rem;
         }
     }
 
