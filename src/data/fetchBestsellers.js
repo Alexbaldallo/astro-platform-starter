@@ -2,6 +2,22 @@ import Papa from 'papaparse';
 import productosLocales from './productos.csv?raw';
 import { GOOGLE_SHEETS_CSV_URL } from './sheetUrl.js';
 
+// Acepta precios con punto o coma decimal ("84.99", "84,99", "1.234,56 €")
+export function parsearPrecio(valor) {
+    let s = String(valor ?? '')
+        .trim()
+        .replace(/[€\s]/g, '');
+    const coma = s.lastIndexOf(',');
+    const punto = s.lastIndexOf('.');
+    if (coma > -1 && punto > -1) {
+        // el separador que aparece más a la derecha es el decimal
+        s = coma > punto ? s.replace(/\./g, '').replace(',', '.') : s.replace(/,/g, '');
+    } else {
+        s = s.replace(',', '.');
+    }
+    return parseFloat(s);
+}
+
 export async function fetchBestsellers() {
     let csvText;
 
@@ -23,8 +39,8 @@ export async function fetchBestsellers() {
         .map((row) => ({
             name: row.name,
             brand: row.brand,
-            currentPrice: parseFloat(row.currentPrice),
-            originalPrice: parseFloat(row.originalPrice),
+            currentPrice: parsearPrecio(row.currentPrice),
+            originalPrice: parsearPrecio(row.originalPrice),
             image: row.image,
             features: row.features?.split('|') || [],
             bestseller: row.bestseller?.toLowerCase() === 'true',

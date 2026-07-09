@@ -24,6 +24,22 @@ const ESTADO_PATH = 'automation/.oferta-hoy.json';
 
 const euros = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' });
 
+// Acepta precios con punto o coma decimal ("84.99", "84,99", "1.234,56 €")
+function parsearPrecio(valor) {
+    let s = String(valor ?? '')
+        .trim()
+        .replace(/[€\s]/g, '');
+    const coma = s.lastIndexOf(',');
+    const punto = s.lastIndexOf('.');
+    if (coma > -1 && punto > -1) {
+        // el separador que aparece más a la derecha es el decimal
+        s = coma > punto ? s.replace(/\./g, '').replace(',', '.') : s.replace(/,/g, '');
+    } else {
+        s = s.replace(',', '.');
+    }
+    return parseFloat(s);
+}
+
 // ---------- Datos ----------
 
 async function cargarProductos() {
@@ -43,8 +59,8 @@ async function cargarProductos() {
     return data
         .filter((row) => row.name)
         .map((row) => {
-            const currentPrice = parseFloat(row.currentPrice);
-            const originalPrice = parseFloat(row.originalPrice);
+            const currentPrice = parsearPrecio(row.currentPrice);
+            const originalPrice = parsearPrecio(row.originalPrice);
             return {
                 name: row.name,
                 brand: row.brand,
