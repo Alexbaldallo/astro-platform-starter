@@ -1,4 +1,7 @@
 ---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/playfair-display';
+
 export interface Props {
     title: string;
     description?: string;
@@ -16,9 +19,6 @@ const { title, description = 'Chronux - Relojes Premium' } = Astro.props;
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
-
-        <!-- Fuentes y CSS externos -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
 
         <!-- Meta tags para SEO -->
         <meta property="og:title" content={title} />
@@ -44,26 +44,55 @@ const { title, description = 'Chronux - Relojes Premium' } = Astro.props;
         box-sizing: border-box;
     }
 
-    body {
-        font-family:
-            'Inter',
-            -apple-system,
-            BlinkMacSystemFont,
-            sans-serif;
-        background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-        color: white;
-        overflow-x: hidden;
+    :root {
+        /* Paleta "relojería de lujo": negro cálido + dorado champán */
+        --bg: #0b0b0e;
+        --bg-soft: #101014;
+        --surface: #14141a;
+        --line: rgba(255, 255, 255, 0.08);
+        --line-gold: rgba(201, 168, 106, 0.35);
+
+        --gold: #c9a86a;
+        --gold-strong: #dfc08a;
+        --gold-gradient: linear-gradient(135deg, #dfc08a 0%, #c9a86a 45%, #a8843f 100%);
+
+        --text-primary: #f4f1e8;
+        --text-secondary: rgba(244, 241, 232, 0.72);
+        --text-muted: rgba(244, 241, 232, 0.45);
+
+        /* Alias usados por componentes existentes */
+        --glass-bg: rgba(255, 255, 255, 0.04);
+        --glass-border: var(--line);
+        --accent-gold: var(--gold);
+        --primary-gradient: var(--gold-gradient);
+        --secondary-gradient: var(--gold-gradient);
+
+        --font-display: 'Playfair Display Variable', Georgia, 'Times New Roman', serif;
+        --font-body: 'Inter Variable', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    :root {
-        --primary-gradient: linear-gradient(45deg, #ff6b35, #f7931e, #ffd700);
-        --secondary-gradient: linear-gradient(45deg, #ff6b35, #ffd700);
-        --glass-bg: rgba(255, 255, 255, 0.05);
-        --glass-border: rgba(255, 255, 255, 0.1);
-        --text-primary: #ffffff;
-        --text-secondary: rgba(255, 255, 255, 0.8);
-        --text-muted: rgba(255, 255, 255, 0.5);
-        --accent-gold: #ffd700;
-        --accent-orange: #ff6b35;
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: var(--font-body);
+        background-color: var(--bg);
+        background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201, 168, 106, 0.08), transparent 70%);
+        color: var(--text-primary);
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    h1,
+    h2,
+    h3,
+    .font-display {
+        font-family: var(--font-display);
+    }
+
+    ::selection {
+        background: var(--gold);
+        color: #14110a;
     }
 </style>

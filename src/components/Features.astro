@@ -1,32 +1,53 @@
 ---
 const features = [
     {
-        icon: 'fas fa-shipping-fast',
+        icon: 'truck',
         title: 'Envío desde Amazon',
-        description: 'Entrega rápida y fiable directamente desde Amazon, con seguimiento incluido.'
+        description: 'Entrega rápida y fiable directamente desde Amazon, con seguimiento y devoluciones sencillas.'
     },
     {
-        icon: 'fas fa-shield-alt',
-        title: 'Garantía de la Marca',
-        description: 'Todos los productos cuentan con garantía oficial del fabricante.'
+        icon: 'shield',
+        title: 'Garantía de la marca',
+        description: 'Todos los relojes cuentan con la garantía oficial del fabricante.'
     },
     {
-        icon: 'fas fa-award',
-        title: 'Productos Originales',
-        description: 'Solo vendemos productos auténticos de las mejores marcas disponibles en Amazon.'
+        icon: 'award',
+        title: 'Productos originales',
+        description: 'Solo seleccionamos relojes auténticos de las mejores marcas disponibles en Amazon.'
     }
 ];
 ---
 
-<section class="features-section">
+<section class="features-section" id="ventajas">
     <div class="container">
-        <h2 class="section-title">¿Por qué Chronux?</h2>
+        <header class="section-header">
+            <p class="section-kicker">Nuestra promesa</p>
+            <h2 class="section-title">¿Por qué Chronux?</h2>
+        </header>
         <div class="features-grid">
             {
                 features.map((feature) => (
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class={feature.icon} />
+                            {feature.icon === 'truck' && (
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8z" />
+                                    <circle cx="5.5" cy="18.5" r="2.5" />
+                                    <circle cx="18.5" cy="18.5" r="2.5" />
+                                </svg>
+                            )}
+                            {feature.icon === 'shield' && (
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                    <path d="M9 12l2 2 4-4" />
+                                </svg>
+                            )}
+                            {feature.icon === 'award' && (
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="8" r="6" />
+                                    <path d="M15.5 13.5L17 22l-5-3-5 3 1.5-8.5" />
+                                </svg>
+                            )}
                         </div>
                         <h3 class="feature-title">{feature.title}</h3>
                         <p class="feature-description">{feature.description}</p>
@@ -39,9 +60,10 @@ const features = [
 
 <style>
     .features-section {
-        padding: 4rem 1.5rem;
-        background: rgba(255, 255, 255, 0.02);
-        border-top: 1px solid var(--glass-border);
+        padding: 5rem 1.5rem;
+        background: var(--bg-soft);
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
     }
 
     .container {
@@ -49,15 +71,32 @@ const features = [
         margin: 0 auto;
     }
 
-    .section-title {
+    .section-header {
         text-align: center;
-        font-size: 2.5rem;
-        font-weight: 800;
-        margin-bottom: 3rem;
-        background: linear-gradient(45deg, #fff, #ffd700);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        margin-bottom: 3.5rem;
+    }
+
+    .section-kicker {
+        font-size: 0.78rem;
+        letter-spacing: 0.45em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 1rem;
+    }
+
+    .section-title {
+        font-size: 2.6rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 64px;
+        height: 1px;
+        background: var(--gold-gradient);
+        margin: 1.25rem auto 0;
     }
 
     .features-grid {
@@ -68,33 +107,48 @@ const features = [
 
     .feature-card {
         text-align: center;
-        padding: 2rem;
-        background: var(--glass-bg);
-        border-radius: 20px;
-        border: 1px solid var(--glass-border);
-        transition: transform 0.3s ease;
+        padding: 2.5rem 2rem;
+        background: var(--surface);
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        transition:
+            transform 0.3s ease,
+            border-color 0.3s ease;
     }
 
     .feature-card:hover {
         transform: translateY(-5px);
+        border-color: var(--line-gold);
     }
 
     .feature-icon {
-        font-size: 3rem;
-        color: var(--accent-gold);
-        margin-bottom: 1rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 64px;
+        height: 64px;
+        border: 1px solid var(--line-gold);
+        border-radius: 50%;
+        color: var(--gold);
+        margin-bottom: 1.5rem;
+    }
+
+    .feature-icon svg {
+        width: 26px;
+        height: 26px;
     }
 
     .feature-title {
-        font-size: 1.3rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
+        font-size: 1.35rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
         color: var(--text-primary);
     }
 
     .feature-description {
         color: var(--text-secondary);
-        line-height: 1.5;
+        line-height: 1.65;
+        font-size: 0.95rem;
     }
 
     @media (min-width: 768px) {
