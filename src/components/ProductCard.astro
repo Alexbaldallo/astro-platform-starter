@@ -89,6 +89,8 @@ const euros = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
+        /* Funde el fondo blanco de las fotos de Amazon con el panel: sin cortes */
+        mix-blend-mode: multiply;
         transition: transform 0.4s ease;
     }
 
@@ -141,6 +143,11 @@ const euros = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR
         font-weight: 600;
         margin-bottom: 1rem;
         color: var(--text-primary);
+        /* Los títulos de Amazon son larguísimos: máximo 3 líneas */
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
     .product-price {

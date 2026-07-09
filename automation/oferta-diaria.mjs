@@ -126,7 +126,7 @@ function plantillaHTML(p) {
         background: linear-gradient(180deg, #faf9f6 0%, #edeae3 100%);
         display: flex; align-items: center; justify-content: center; padding: 36px; position: relative;
     }
-    .panel img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .panel img { max-width: 100%; max-height: 100%; object-fit: contain; mix-blend-mode: multiply; }
     .mono {
         display: none; font-family: Georgia, serif; font-size: 150px; color: #c9a86a;
         border: 4px solid #c9a86a; border-radius: 50%; width: 280px; height: 280px;
