@@ -1,0 +1,5 @@
+name,brand,currentPrice,originalPrice,image,features,bestseller,flashSale,category,affiliateLink
+CHRONOS,BLACK MAMUT,25.99,25.99,/images/image1.jpg,Elegante y versátil|Cómodo y seguro|Resistente al agua|Regalo ideal,true,false,clasico,https://amzn.to/3UWmvb7
+Sport,Tommy Hilfiger,84.99,179,https://m.media-amazon.com/images/I/81bZb2IUmxL._AC_SX522_.jpg,Multifunción completa|Robusto y elegante|Correa cómoda y moderna|Resistente al agua 5ATM,true,false,smartwatch,https://amzn.to/4n15oAI
+Tommy Hilfiger,Tommy Hilfiger,100.99,115.34,https://m.media-amazon.com/images/I/81LA9lyGDWL._AC_SX522_.jpg,Movimiento multifunción|Caja resistente y estilizada|Pulsera de acero|Resistente al agua 5ATM,true,false,fitness,https://amzn.to/3HMFzpl
+SSB407P1,Seiko,203.56,265.56,https://m.media-amazon.com/images/I/61wxp5LJ3PL._AC_SX522_.jpg,Elegante|Cómodo|Luminoso|Resistente agua,true,false,fitness,https://amzn.to/4nabKOt
