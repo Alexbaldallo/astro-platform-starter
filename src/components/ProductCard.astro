@@ -41,9 +41,15 @@ const euros = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR
             }
         </div>
 
-        <ul class="product-features">
-            {features.map((feature) => <li>{feature}</li>)}
-        </ul>
+        {
+            features.length > 0 && (
+                <ul class="product-features">
+                    {features.map((feature) => (
+                        <li>{feature}</li>
+                    ))}
+                </ul>
+            )
+        }
 
         <a href={affiliateLink} target="_blank" rel="sponsored nofollow noopener" class="buy-button">
             Ver oferta en Amazon
