@@ -13,22 +13,18 @@ Web de afiliados de Amazon con relojes ("Chronux"), construida con **Astro** + *
 
 Si Google Sheets no responde o la hoja deja de estar publicada, la web ahora usa automáticamente `src/data/productos.csv` (contiene los 4 relojes recuperados del historial de git). Así la web **siempre compila**, aunque hayas perdido la hoja.
 
-## Recuperar la hoja de productos (la "nube")
+## La hoja de productos (la "nube")
 
-La hoja original estaba publicada en esta URL (ábrela en el navegador; si descarga un CSV, ¡aún existe!):
+La hoja actual vive en el Google Drive de la cuenta de Alex (creada en julio de 2026 a partir de la plantilla `src/data/productos.csv`, después de perderse la original). Su URL de publicación está en **`src/data/sheetUrl.js`** — ese es el único sitio del código que hay que tocar si algún día se cambia de hoja.
 
-```
-https://docs.google.com/spreadsheets/d/e/2PACX-1vTs3eBuMJJEBh3N2-CFQYVZLLiQr-1a9pMXENqsrCsfUPndP1Phd-r6u6GCHbHZzGVK2LRFbStCp6tH/pub?gid=865936206&single=true&output=csv
-```
-
-También puedes buscar en [Google Drive](https://drive.google.com) (con la cuenta que usaras entonces) una hoja de cálculo con estas columnas.
-
-### Si la hoja se perdió: crear una nueva
+### Si hay que crear otra hoja nueva
 
 1. Crea una hoja nueva en [sheets.google.com](https://sheets.google.com).
 2. Importa `src/data/productos.csv` (Archivo → Importar → Subir) como punto de partida.
 3. Publícala: **Archivo → Compartir → Publicar en la web** → elige la pestaña y formato **"Valores separados por comas (.csv)"** → Publicar.
-4. Copia la URL que te da Google y pégala en `GOOGLE_SHEETS_CSV_URL` dentro de `src/data/fetchBestsellers.js`.
+4. Copia la URL que te da Google y pégala en `GOOGLE_SHEETS_CSV_URL` dentro de `src/data/sheetUrl.js`.
+
+> Los precios pueden escribirse con coma o punto decimal: el código entiende ambos. Google tarda ~5 minutos en reflejar los cambios de la hoja en el CSV publicado.
 
 ### Columnas de la hoja (exactas, en la primera fila)
 
