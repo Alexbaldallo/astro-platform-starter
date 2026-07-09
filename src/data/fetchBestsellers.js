@@ -42,7 +42,7 @@ export async function fetchBestsellers() {
             currentPrice: parsearPrecio(row.currentPrice),
             originalPrice: parsearPrecio(row.originalPrice),
             image: row.image,
-            features: row.features?.split('|') || [],
+            features: row.features ? row.features.split('|').map((f) => f.trim()).filter(Boolean) : [],
             bestseller: row.bestseller?.toLowerCase() === 'true',
             flashSale: row.flashSale?.toLowerCase() === 'true',
             category: row.category,
